@@ -1,6 +1,6 @@
 /*
- * Homework 03 - Decrease and Conquer
- *Utilize the decrease and conquer pattern to solve these problems.
+ *  Homework 03 - Decrease and Conquer
+ *  Utilize the decrease and conquer pattern to solve these problems.
  */
 
 /*
@@ -215,7 +215,7 @@ let testCount;
 console.log('Number of Ones Tests');
 testCount = [0, 0];
 
-assert(testCount, 'should return unique values from sorted list with duplicates', () => {
+assert(testCount, 'should return correct number of ones for array with zeroes and ones', () => {
   let example = numberOfOnes([0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1]);
   return example !== undefined && example === 8;
 });
