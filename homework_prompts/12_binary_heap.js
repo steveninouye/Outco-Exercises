@@ -147,28 +147,28 @@ assert(testCount, 'has compare method', () => {
  return Object.prototype.toString.apply(heap.compare) === '[object Function]';
 });
 
-assert(testCount, 'indicates when heap condition is met for minheap', () => {
+assert(testCount, 'returns true for minheap if element at first argument index is less than element at second argument index', () => {
  let heap = new Heap('min');
  heap.storage.push(1);
  heap.storage.push(10);
  return heap.compare(0, 1) === true;
 });
 
-assert(testCount, 'indicates when heap condition is not met for minheap', () => {
+assert(testCount, 'returns false for minheap if element at first argument index is greater than element at second argument index', () => {
  let heap = new Heap('min');
  heap.storage.push(10);
  heap.storage.push(1);
  return heap.compare(0, 1) === false;
 });
 
-assert(testCount, 'indicates when heap condition is not met for minheap', () => {
+assert(testCount, 'return true for maxheap if element at first argument index is greater than element at second argument index', () => {
  let heap = new Heap('max');
  heap.storage.push(10);
  heap.storage.push(1);
  return heap.compare(0, 1) === true;
 });
 
-assert(testCount, 'indicates when heap condition is not met for minheap', () => {
+assert(testCount, 'return false for maxheap if element at first argument index is less than element at second argument index', () => {
  let heap = new Heap('max');
  heap.storage.push(1);
  heap.storage.push(10);

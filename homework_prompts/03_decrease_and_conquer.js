@@ -144,37 +144,6 @@ function rotatedArraySearch(nums, target) {
 }
 
 
-
-/*
- * ## Kth Largest [Extra Credit]
- *
- * *Given a unsorted array and an integer k, find the kth largest element in the array*
- *
- * Read up on quickselect [here](https://en.wikipedia.org/wiki/Quickselect).
- *
- * **Parameters**
- * Input: arr {Array of Integers}
- * Input: k {Integer}
- * Output: {Integer}
- *
- * **Constraints**
- * k < length of arr
- *
- * Time: O(N)
- * Space: O(N)
- *
- * **Examples**
- * `[1, 4, 2, 5, 12, 9], 3 --> 5`
- * `[4, 7, 1, 6], 1 --> 7`
- * `[6, 44, 2, 1, 9, 10, -1, 78, 90], 3 --> 44`
- */
-
-function kthLargest(k, arr) {
- // YOUR WORK HERE
-}
-
-
-
 /*
  * ## Multiplication Using Russian Peasant [Extra Credit]
  *
@@ -201,7 +170,6 @@ function kthLargest(k, arr) {
 function  multiplicationRussianPeasant(a, b) {
   // YOUR WORK HERE
 }
-
 
 
 
@@ -321,26 +289,6 @@ assert(testCount, 'returns true when target is the last number in the array', ()
 
 console.log('PASSED: ' + testCount[0] + ' / ' + testCount[1], '\n\n');
 
-
-console.log('Kth Largest Tests');
-testCount = [0, 0];
-
-assert(testCount, 'return correct value for 3rd largest value in the array', () => {
-  let example = kthLargest(3, [1, 4, 2, 5, 12, 9]);
-  return example !== undefined && example === 5;
-});
-
-assert(testCount, 'returns correct value for largest value in the array', () => {
-  let example = kthLargest(1, [4, 7, 1, 6]);
-  return example !== undefined && example === 7;
-});
-
-assert(testCount, 'returns correct value for smallest value in the array', () => {
-  let example = kthLargest(9, [6, 44, 2, 1, 9, 10, -1, 78, 90]);
-  return example !== undefined && example === -1;
-});
-
-console.log('PASSED: ' + testCount[0] + ' / ' + testCount[1], '\n\n');
 
 console.log('Multiplication Russian Tests');
 testCount = [0, 0];

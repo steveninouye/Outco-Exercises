@@ -1,6 +1,13 @@
 /*
- *  Homework 01 - Complexity Problem
- */
+ *  Homework 01 - Complexity
+ *
+ *  For the following functions, write the expected Time and Auxiliary Space
+ *  Complexity using what you know about nested loops, hash table look-ups and
+ *  the runtime of built in functions.
+ *
+ *  NOTE: You don't need to code to anything for these problems, just write
+ *  what you the complexity to be using big-O notation
+ **/
 
 /*
 Order of Magnitude
