@@ -10,7 +10,7 @@
  *  The Heap will have the following properties:
  *
  *         storage:   {Array} - storage of numbers within heap
- *            type:   {String} - idicates whether heap is a minheap or maxheap
+ *            type:   {String} - indicates whether heap is a minheap or maxheap
  *
  *  The Heap will have the following methods:
  *

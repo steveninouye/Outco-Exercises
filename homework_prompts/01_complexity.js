@@ -300,32 +300,34 @@ function firstTimesLast(arr) {
 
 /*
  *  Most Frequent Occurrence
+ *  NOTE: The string only contains letters in it
  *
  *  Time Complexity:
  *  Auxiliary Space Complexity:
  */
 
-function mostFrequentOccurrence(str) {
-  const lowerString = str.toLowerCase();
-  let letters = {};
-  let mostFrequent;
+ function mostFrequentOccurrence(str) {
+   const lowerString = str.toLowerCase();
+   let letters = {};
+   let mostFrequent;
 
-  for (let i = 0; i < lowerString.length; i++) {
-    if (letters[lowerString[i]]) {
-      letters[lowerString[i]]++;
-    } else {
-      letters[lowerString[i]] = 1;
-    }
-  }
+   for (let i = 0; i < lowerString.length; i++) {
+     let char = str[i].toLowerCase();
+     if (letters[char] ) {
+       letters[char]++;
+     } else {
+       letters[char] = 1;
+     }
+   }
 
-  for(let key in letters) {
-    if (!mostFrequent || letters[key] > mostFrequent[1]) {
-      mostFrequent = [key, letters[key]];
-    }
-  }
+   for(let key in letters) {
+     if (!mostFrequent || letters[key] > mostFrequent[1]) {
+       mostFrequent = [key, letters[key]];
+     }
+   }
 
-  return mostFrequent[0];
-}
+   return mostFrequent[0];
+ }
 
 
 /*

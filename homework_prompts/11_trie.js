@@ -197,7 +197,7 @@ assert(testCount, 'has root property, is a TrieNode', () => {
 
 assert(testCount, 'root node value is set to null', () => {
   let trie = new Trie();
-  return trie.root.value === null;
+  return trie.root !== undefined && trie.root.value === null;
 });
 
 console.log('PASSED: ' + testCount[0] + ' / ' + testCount[1], '\n\n');
@@ -214,7 +214,8 @@ assert(testCount, 'has insert method', () => {
 assert(testCount, 'able to insert a word into empty trie', () => {
   let trie = new Trie();
   trie.insert('cat');
-  return trie.root.next.c !== undefined &&
+  return trie.root !== undefined &&
+         trie.root.next.c !== undefined &&
          trie.root.next.c.next.a !== undefined &&
          trie.root.next.c.next.a.next.t !== undefined &&
          trie.root.next.c.next.a.next.t.end === true;
@@ -224,7 +225,8 @@ assert(testCount, 'able to insert words that overlap into trie', () => {
   let trie = new Trie();
   trie.insert('cat');
   trie.insert('cats');
-  return trie.root.next.c !== undefined &&
+  return trie.root !== undefined &&
+         trie.root.next.c !== undefined &&
          trie.root.next.c.next.a !== undefined &&
          trie.root.next.c.next.a.next.t !== undefined &&
          trie.root.next.c.next.a.next.t.next.s !== undefined &&
@@ -307,7 +309,7 @@ assert(testCount, 'returns correct prefixes including input that is a word', () 
   trie.insert('car');
   trie.insert('cars');
   let results = trie.startsWith('car');
-  return arraysMatching(results, ['car', 'cars']);
+  return results !== undefined && arraysMatching(results, ['car', 'cars']);
 });
 
 assert(testCount, 'returns the correct prefixes', () => {
@@ -318,7 +320,7 @@ assert(testCount, 'returns the correct prefixes', () => {
   trie.insert('car');
   trie.insert('cars');
   let results = trie.startsWith('ca');
-  return arraysMatching(results, ['cat', 'cats', 'catnip', 'car', 'cars']);
+  return results !== undefined && arraysMatching(results, ['cat', 'cats', 'catnip', 'car', 'cars']);
 });
 
 assert(testCount, 'returns all words if input is empty string', () => {
@@ -331,7 +333,7 @@ assert(testCount, 'returns all words if input is empty string', () => {
   trie.insert('hell');
   trie.insert('he');
   let results = trie.startsWith('');
-  return arraysMatching(results, ['cat', 'cats', 'catnip', 'foo', 'hello', 'hell', 'he']);
+  return results !== undefined && arraysMatching(results, ['cat', 'cats', 'catnip', 'foo', 'hello', 'hell', 'he']);
 });
 
 console.log('PASSED: ' + testCount[0] + ' / ' + testCount[1], '\n\n');
