@@ -64,5 +64,19 @@ git push origin master
 
 Upon your work being pushed up, we will view your work from GitHub.
 
+# Weekly Hackerrank Challenges
+
+Here is a list of Hackerrank challenges that are meant to be taken after each week of the course to help you assess your progress. Let us know if you run into any errors since we can add time to the challenge.
+
+[Week 1](http://hr.gs/outco_week1)
+
+[Week 2](http://hr.gs/outco_week2)
+
+[Week 3](http://hr.gs/outco_week3)
+
+[Week 4](http://hr.gs/outco_week4)
+
+[Week 5](http://hr.gs/outco_week5)
+
 ## Questions or Comments?
 If there are issues, bug, comment, question, you can reach us at [this form](https://outco.io/outcodersupport)
