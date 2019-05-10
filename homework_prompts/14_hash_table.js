@@ -329,7 +329,7 @@ assert(testCount, 'doubles hashtable number of buckets if load factor is ' +
  return hashTable.buckets === 16;
 });
 
-assert(testCount, 'halves buckets if load factor drops equal to or below' +
+assert(testCount, 'halves buckets if load factor drops equal to or below ' +
                  '25% and bucket length is greater than 8', () => {
  let hashTable = new HashTable();
  const keys = ['zero', 'one', 'two', 'three', 'four', 'five', 'six'];

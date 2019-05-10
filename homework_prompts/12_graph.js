@@ -202,29 +202,30 @@ assert(testCount, 'has addVertex method', () => {
 });
 
 assert(testCount, 'is able to add a vertex', () => {
- let graph = new Graph();
- graph.addVertex(5);
- return Object.keys(graph.storage).length === 1 && graph.storage[5];
+  let graph = new Graph();
+  graph.addVertex(5);
+  return graph.storage !== undefined &&
+    Object.keys(graph.storage).length === 1 && graph.storage[5];
 });
 
 assert(testCount, 'vertices store an array of connections', () => {
  let graph = new Graph();
  graph.addVertex(5);
- return Array.isArray(graph.storage[5]);
+ return graph.storage !== undefined && Array.isArray(graph.storage[5]);
 });
 
 assert(testCount, 'is able to add two vertices', () => {
  let graph = new Graph();
  graph.addVertex(5);
  graph.addVertex(10);
- return Object.keys(graph.storage).length === 2 && graph.storage[5] && graph.storage[10];
+ return graph.storage !== undefined && Object.keys(graph.storage).length === 2 && graph.storage[5] && graph.storage[10];
 });
 
 assert(testCount, 'does not add in duplicate vertex', () => {
  let graph = new Graph();
  graph.addVertex(5);
  graph.addVertex(5);
- return Object.keys(graph.storage).length === 1;
+ return graph.storage !== undefined && Object.keys(graph.storage).length === 1;
 });
 
 console.log('PASSED: ' + testCount[0] + ' / ' + testCount[1], '\n\n');
@@ -239,30 +240,33 @@ assert(testCount, 'has removeVertex method', () => {
 });
 
 assert(testCount, 'able to remove a vertex within graph', () => {
- let graph = new Graph();
- graph.addVertex(5);
- let result = graph.removeVertex(5);
- return Object.keys(graph.storage).length === 0 && result;
+  let graph = new Graph();
+  graph.addVertex(5);
+  let result = graph.removeVertex(5);
+  return graph.storage !== undefined &&
+    Object.keys(graph.storage).length === 0 && result;
 });
 
 assert(testCount, 'does not remove vertex that does not exist', () => {
- let graph = new Graph();
- graph.addVertex(5);
- let result = graph.removeVertex(10);
- return Object.keys(graph.storage).length === 1 && !result;
+  let graph = new Graph();
+  graph.addVertex(5);
+  let result = graph.removeVertex(10);
+  return graph.storage !== undefined &&
+    Object.keys(graph.storage).length === 1 && !result;
 });
 
 assert(testCount, 'removes a vertex while safely removing edges connected to node', () => {
- let graph = new Graph();
- graph.addVertex(5);
- graph.addVertex(10);
- graph.addVertex(15);
- graph.addEdge(5, 10);
- graph.addEdge(5, 15);
- graph.addEdge(10, 5);
- graph.addEdge(15, 10);
- let result = graph.removeVertex(5);
- return Object.keys(graph.storage).length === 2 &&
+  let graph = new Graph();
+  graph.addVertex(5);
+  graph.addVertex(10);
+  graph.addVertex(15);
+  graph.addEdge(5, 10);
+  graph.addEdge(5, 15);
+  graph.addEdge(10, 5);
+  graph.addEdge(15, 10);
+  let result = graph.removeVertex(5);
+  return graph.storage !== undefined &&
+    Object.keys(graph.storage).length === 2 &&
     graph.storage[10].length === 0 &&
     graph.storage[15].length === 1 &&
     result;
@@ -280,18 +284,22 @@ assert(testCount, 'has addEdge method', () => {
 });
 
 assert(testCount, 'able to create an edge between two vertices that exist', () => {
- let graph = new Graph();
- graph.addVertex(5);
- graph.addVertex(10);
- let result = graph.addEdge(5, 10);
- return graph.storage[5].length === 1 && graph.storage[10].length === 0 && result;
+  let graph = new Graph();
+  graph.addVertex(5);
+  graph.addVertex(10);
+  let result = graph.addEdge(5, 10);
+  return graph.storage !== undefined &&
+    graph.storage[5] !== undefined &&
+    graph.storage[5].length === 1 && graph.storage[10].length === 0 && result;
 });
 
 assert(testCount, 'does not create an edge when one of the vertices does not exist', () => {
  let graph = new Graph();
  graph.addVertex(5);
  let result = graph.addEdge(5, 10); //should be false
- return graph.storage[5].length === 0 && graph.storage[10] === undefined && !result;
+ return graph.storage !== undefined &&
+   graph.storage[5] !== undefined &&
+   graph.storage[5].length === 0 && graph.storage[10] === undefined && !result;
 });
 
 console.log('PASSED: ' + testCount[0] + ' / ' + testCount[1], '\n\n');
@@ -311,16 +319,20 @@ assert(testCount, 'able to remove an edge between two vertices', () => {
  graph.addVertex(10);
  graph.addEdge(5, 10);
  let result = graph.removeEdge(5, 10);
- return graph.storage[5].length === 0 && graph.storage[10].length === 0 && result;
+ return graph.storage !== undefined &&
+   graph.storage[5] !== undefined &&
+   graph.storage[5].length === 0 && graph.storage[10].length === 0 && result;
 });
 
 assert(testCount, 'does not remove edge when edge does not exist', () => {
- let graph = new Graph();
- graph.addVertex(5);
- graph.addVertex(10);
- graph.addEdge(5, 10);
- let result = graph.removeEdge(6, 10);
- return graph.storage[5].length === 1 && graph.storage[6] === undefined && !result;
+  let graph = new Graph();
+  graph.addVertex(5);
+  graph.addVertex(10);
+  graph.addEdge(5, 10);
+  let result = graph.removeEdge(6, 10);
+  return graph.storage !== undefined &&
+    graph.storage[5] !== undefined &&
+    graph.storage[5].length === 1 && graph.storage[6] === undefined && !result;
 });
 
 console.log('PASSED: ' + testCount[0] + ' / ' + testCount[1], '\n\n');
@@ -362,22 +374,24 @@ assert(testCount, 'returns null if the vertex does not exist', () => {
 });
 
 assert(testCount, 'returns an empty array if vertex has no edges', () => {
- let graph = new Graph();
- graph.addVertex(5);
- return graph.neighbors(5).length === 0;
+  let graph = new Graph();
+  graph.addVertex(5);
+  return graph.neighbors(5) !== undefined &&
+    graph.neighbors(5).length === 0;
 });
 
 assert(testCount, 'returns neighbors if edges exist for a vertex', () => {
- let graph = new Graph();
- graph.addVertex(5);
- graph.addVertex(10);
- graph.addVertex(15);
- graph.addVertex(20);
- graph.addEdge(5, 10);
- graph.addEdge(5, 15);
- graph.addEdge(5, 20);
- let result = graph.neighbors(5);
- return result.length === 3 && arraysMatching(result, [10,15,20]);
+  let graph = new Graph();
+  graph.addVertex(5);
+  graph.addVertex(10);
+  graph.addVertex(15);
+  graph.addVertex(20);
+  graph.addEdge(5, 10);
+  graph.addEdge(5, 15);
+  graph.addEdge(5, 20);
+  let result = graph.neighbors(5);
+  return result !== undefined &&
+    result.length === 3 && arraysMatching(result, [10,15,20]);
 });
 
 console.log('PASSED: ' + testCount[0] + ' / ' + testCount[1], '\n\n');
