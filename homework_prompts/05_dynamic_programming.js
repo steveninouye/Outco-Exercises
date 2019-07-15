@@ -1,7 +1,7 @@
 /*
  *  Homework 05 - Dynamic Programming
  *
- *  Instructions: Dynammic programming takes a lot of practice to recognize as
+ *  Instructions: Dynamic programming takes a lot of practice to recognize as
  *                well as develop algorithms. Thus we will be working on a few
  *                different problems using dynammic programming.
  *
@@ -16,124 +16,160 @@
  *      					The solution of a larger problem can be solved using
  *      					solutions of its subproblems.
  *
+ *  Problem: Lattice Paths (Dynamic Programming Approach)
  *
- *  Problem:  Coin Sum
+ *  Prompt:    Count the number of unique paths to travel from the top left
+ *             to the bottom right of a lattice of squares.
  *
- *            Given an array of coins and a target total, return how many
- *            unique ways there are to use the coins to make up that total.
+ *             NOTE: You are traveling along the **EDGES** of the lattice
  *
- *  Input:    coins {Integer Array}, total {Integer}
- *  Output:   {Integer}
+ *  Input:     An integer N (which is the width of the lattice)
+ *             An integer M (which is the height of the lattice)
  *
+ *  Output:    An interger (which represents the number of unique paths)
  *
- *  Example:  Input:  [1,2,3], 4
+ *  Example:   input: 2
  *
- *                    1+1+1+1
- *                    1+3
- *                    1+1+2
- *                    2+2
+ *             (2 x 3 lattice of squares)
+ *              __ __ __
+ *             |__|__|__|
+ *             |__|__|__|
  *
- *            Output: 4
+ *             output: 10 (number of unique paths from top left corner to bottom
+ *                     right)
  *
+ *             Diagram:
  *
- *            Input:  [2,5,3,6], 10
+ *             1__1__1__1
+ *             |  |  |  |
+ *             1__2__3__4
+ *             |  |  |  |
+ *             1__3__6__10
  *
- *                    2+3+5
- *                    5+5
- *                    2+3+2+3
- *                    2+2+6
- *                    2+2+2+2+2
+ *  Notes:     What is the time and auxilliary space complexity of your solution?
  *
+ *             When moving through the lattice, you can only move either down or
+ *             to the right.
  *
- *            Output: 5
+ *             You did this problem before with recursion. Try implementing it
+ *             now with dynamic programming!
  *
- *    Note:   You have an unlimited number of each coin type. All coins in the
- *            coin array will be unique
- *            Order does not matter. Ex: One penny and one nickel to create six
- *            cents is equivalent to one nickel and one penny
+ *  Resources:
+ *    1: https://projecteuler.net/problem=15
+ *    2: https://en.wikipedia.org/wiki/Lattice_path
  *
  */
 
-
  // Time Complexity:
  // Auxiliary Space Complexity:
- function coinSum(coins, total) {
+ function latticePaths(m, n) {
    //YOUR WORK HERE
  }
 
 
 
-////////////////////////////////////////////////////////////
-///////////////  DO NOT TOUCH TEST BELOW!!!  ///////////////
-////////////////////////////////////////////////////////////
 
 
-console.log('Coin Sum Tests');
-let testCount = [0, 0];
 
-assert(testCount, 'should work for first example case', () => {
-  let test = coinSum([1,2,3], 4);
-  return test === 4;
-});
+ ////////////////////////////////////////////////////////////
+ ///////////////  DO NOT TOUCH TEST BELOW!!!  ///////////////
+ ////////////////////////////////////////////////////////////
 
-assert(testCount, 'should work for second example case', () => {
-  let test = coinSum([2,5,3,6], 10);
-  return test === 5;
-});
+ // code for capturing console.log output
+ let record = [];
+ (function () {
+   let log = console.log;
+   console.log = function () {
+     record = record.concat(Array.prototype.slice.call(arguments));
+     log.apply(this, Array.prototype.slice.call(arguments));
+   };
+ }());
 
-assert(testCount, 'should work for a single coin', () => {
-  let test = coinSum([2], 10);
-  return test === 1;
-});
+ console.log('Lattice Paths Tests');
+ let testCount = [0, 0];
 
-assert(testCount, 'should work when there is no solution', () => {
-  let test = coinSum([7, 15], 20);
-  return test === 0;
-});
+ assert(testCount, 'should work for a 2 x 3 lattice', () => {
+   let example = latticePaths(2, 3);
+   return example === 10;
+ });
 
-assert(testCount, 'should work for variety of coins and large total', () => {
-  let test = coinSum([78,10,4,22,44,31,60,62,95,37,28,11,17,67,33,3,65,9,26,52,25,69,41,57,93,70,96,5,97,48,50,27,6,77,1,55,45,14,72,87,8,71,15,59], 100);
-  return test === 3850949;
-});
+ assert(testCount, 'should return the same for a 3 x 2 lattice', () => {
+   let example = latticePaths(3, 2);
+   return example === 10;
+ });
 
-console.log('PASSED: ' + testCount[0] + ' / ' + testCount[1], '\n\n');
+ assert(testCount, 'should work for a 0 x 0 lattice', () => {
+   let example = latticePaths(0, 0);
+   return example === 1;
+ });
 
-// function for checking if arrays are equal
-function arraysEqual(arr1, arr2) {
-  if(arr1.length !== arr2.length)
-    return false;
-  for(let i = arr1.length; i--;) {
-    if(arr1[i] !== arr2[i])
-      return false;
-  }
-  return true;
-}
+ assert(testCount, 'should work for a 10 x 10 lattice (square input)', () => {
+   let example = latticePaths(10, 10);
+   return example === 184756;
+ });
 
-// custom assert function to handle tests
-// Array count : keeps track out how many tests pass and how many total
-//   in the form of a two item array i.e., [0, 0]
-// String name : describes the test
-// Function test : performs a set of operations and returns a boolean
-//   indicating if test passed
-function assert(count, name, test){
-  if(!count || !Array.isArray(count) || count.length !== 2) {
-    count = [0, '*'];
-  } else {
-    count[1]++;
-  }
+ assert(testCount, 'should work for a 20 x 15 lattice (large input)', () => {
+   let example = latticePaths(20, 15);
+   return example === 3247943160;
+ });
 
-  let pass = 'false';
-  let errMsg = null;
-  try {
-    if (test()) {
-      pass = ' true';
-      count[0]++;
-    }
-  } catch(e) {
-    errMsg = e;
-  }
-  console.log('  ' + (count[1] + ')   ').slice(0,5) + pass + ' : ' + name);
-  if (errMsg !== null) {
-    console.log('       ' + errMsg + '\n');
-  }
-}
+ console.log('PASSED: ' + testCount[0] + ' / ' + testCount[1], '\n\n');
+
+ // function for checking if arrays are equal
+ function arraysEqual(arr1, arr2) {
+   if(arr1.length !== arr2.length)
+     return false;
+   for(let i = arr1.length; i--;) {
+     if(arr1[i] !== arr2[i])
+       return false;
+   }
+   return true;
+ }
+
+ // function for checking if arrays contain same elements
+ // (do not need to be in the same order)
+ function arraysMatching(arr1, arr2){
+   if (arr1.length !== arr2.length){
+     return false;
+   } else {
+     let lib = {};
+     for (let i = 0; i < arr1.length; i++){
+       lib[arr1[i]] = true;
+     }
+     for (let j = 0; j < arr2.length; j++){
+       if (lib[arr2[j]] === undefined){
+         return false;
+       }
+     }
+     return true;
+   }
+ }
+
+ // custom assert function to handle tests
+ // Array count : keeps track out how many tests pass and how many total
+ //   in the form of a two item array i.e., [0, 0]
+ // String name : describes the test
+ // Function test : performs a set of operations and returns a boolean
+ //   indicating if test passed
+ function assert(count, name, test){
+   if(!count || !Array.isArray(count) || count.length !== 2) {
+     count = [0, '*'];
+   } else {
+     count[1]++;
+   }
+
+   let pass = 'false';
+   let errMsg = null;
+   try {
+     if (test()) {
+       pass = ' true';
+       count[0]++;
+     }
+   } catch(e) {
+     errMsg = e;
+   }
+   console.log('  ' + (count[1] + ')   ').slice(0,5) + pass + ' : ' + name);
+   if (errMsg !== null) {
+     console.log('       ' + errMsg + '\n');
+   }
+ }
