@@ -25,12 +25,21 @@
  * [1, 2, 3, 1, 2] --> [1, 2, 3]
  */
 
-'use strict';
+"use strict";
 
 function unique(arr) {
-  // YOUR WORK HERE
+  if (arr.length < 2) return arr;
+  const store = new Set(arr.slice(0, 1));
+  let idx = 1;
+  while (arr[idx] !== undefined) {
+    const el = arr[idx];
+    if (!store.has(el)) {
+      store.add(el);
+    }
+    idx++;
+  }
+  return [...store];
 }
-
 
 /**
  * Word Count
@@ -57,10 +66,23 @@ function unique(arr) {
  * 'It's a man, it's a plane, it's superman!' --> '{ its: 3, a: 2, man: 1, plane: 1, superman: 1 }'`
  */
 
+// iterate through array checking if the previous index is a blank space
+// if it is a new word, get remaining entire word, remove all symbols, see if it is in the hashtable, and add 1 to it (initialize 1 if it isn't in table)
 function wordCount(sentence) {
-  // YOUR WORK HERE
+  let result = {};
+  let str = "";
+  for (var i = 0; i < sentence.length; i++) {
+    const ltr = sentence[i].toLowerCase();
+    if (ltr !== " " && "abcdefghijklmnopqrstuvwxyz".includes(ltr)) {
+      str += ltr;
+    } else if (ltr === " " && str.length > 0) {
+      if (result[str] === undefined) result[str] = 0;
+      result[str]++;
+      str = "";
+    }
+  }
+  return result;
 }
-
 
 /**
  * RGB Set
@@ -84,10 +106,13 @@ function wordCount(sentence) {
  */
 
 function rgb(string) {
-  // YOUR WORK HERE
+  const counter = { r: 0, g: 0, b: 0 };
+  for (var i = 0; i < string.length; i++) {
+    const ltr = string[i];
+    counter[ltr]++;
+  }
+  return Math.min(...Object.values(counter));
 }
-
-
 
 /**
  * Missing Number
@@ -111,10 +136,13 @@ function rgb(string) {
  */
 
 function missingNumber(n, arr) {
-  // YOUR WORK HERE
+  let result = [];
+  const numbers = new Set(arr);
+  for (var i = 1; i <= n; i++) {
+    if (!numbers.has(i)) result.push(i);
+  }
+  return result;
 }
-
-
 
 /**
  * Letter Sort
@@ -136,10 +164,16 @@ function missingNumber(n, arr) {
  */
 
 function letterSort(string) {
-  // YOUR WORK HERE
+  let result = "";
+  const letters = "abcdefghijklmnopqrstuvwxyz";
+  for (var i = 0; i < letters.length; i++) {
+    const ltr = letters[i];
+    for (var j = 0; j < string.length; j++) {
+      if (string[j] === ltr) result += ltr;
+    }
+  }
+  return result;
 }
-
-
 
 /**
  * Character Mode
@@ -163,11 +197,29 @@ function letterSort(string) {
  * 'noon' --> 'no'
  */
 
- function characterMode(string) {
-   // YOUR WORK HERE
- }
-
-
+function characterMode(string) {
+  const store = {};
+  const letters = "abcdefghijklmnopqrstuvwxyz";
+  for (var i = 0; i < string.length; i++) {
+    const ltr = string[i].toLowerCase();
+    if (letters.includes(ltr)) {
+      if (store[ltr] === undefined) store[ltr] = 0;
+      store[ltr]++;
+    }
+  }
+  let maxCount = 0;
+  let result = "";
+  for (var key in store) {
+    const val = store[key];
+    if (val > maxCount) {
+      maxCount = val;
+      result = key;
+    } else if (val === maxCount) {
+      result += key;
+    }
+  }
+  return result;
+}
 
 /**
  * Sort Digits
@@ -191,12 +243,9 @@ function letterSort(string) {
  * 10101 --> 111
  */
 
-
 function sortDigits(n) {
   // YOUR WORK HERE
 }
-
-
 
 /**
  *  Get Duplicates
@@ -221,8 +270,6 @@ function sortDigits(n) {
 function getDuplicates(arr) {
   // YOUR WORK HERE
 }
-
-
 
 /**
  *  Anagram Pair
@@ -252,8 +299,6 @@ function anagramPair(string1, string2) {
   // YOUR WORK HERE
 }
 
-
-
 /**
  *  Anagram Palindrome
  *
@@ -280,146 +325,192 @@ function anagramPair(string1, string2) {
  *  `"cat" --> false`
  */
 
-
- function anagramPalindrome(string) {
-   // YOUR WORK HERE
- }
-
-
-
+function anagramPalindrome(string) {
+  // YOUR WORK HERE
+}
 
 ////////////////////////////////////////////////////////////
 ///////////////  DO NOT TOUCH TEST BELOW!!!  ///////////////
 ////////////////////////////////////////////////////////////
 
-
 let testCount;
 
-console.log('Unique tests');
+console.log("Unique tests");
 testCount = [0, 0];
 
-assert(testCount, 'should return unique values from sorted list with duplicates', () => {
-  let example = unique([1, 2, 4, 4, 5, 6])
-  return example !== undefined && arraysEqual(example.sort((a, b) => {return a-b;}), [1,2,4,5,6]);
-});
+assert(
+  testCount,
+  "should return unique values from sorted list with duplicates",
+  () => {
+    let example = unique([1, 2, 4, 4, 5, 6]);
+    return (
+      example !== undefined &&
+      arraysEqual(
+        example.sort((a, b) => {
+          return a - b;
+        }),
+        [1, 2, 4, 5, 6]
+      )
+    );
+  }
+);
 
-assert(testCount, 'should return single value for list with all duplicates', () => {
-  let example = unique([2,2,2,2,2,2,2]);
-  return example !== undefined && arraysEqual(example, [2]);
-});
+assert(
+  testCount,
+  "should return single value for list with all duplicates",
+  () => {
+    let example = unique([2, 2, 2, 2, 2, 2, 2]);
+    return example !== undefined && arraysEqual(example, [2]);
+  }
+);
 
-assert(testCount, 'should return unique values from unsorted list with duplicates', () => {
-  let example = unique([1,2,3,1,2])
-  return example !== undefined && arraysEqual(example.sort((a, b) => {return a-b;}), [1,2,3]);
-});
+assert(
+  testCount,
+  "should return unique values from unsorted list with duplicates",
+  () => {
+    let example = unique([1, 2, 3, 1, 2]);
+    return (
+      example !== undefined &&
+      arraysEqual(
+        example.sort((a, b) => {
+          return a - b;
+        }),
+        [1, 2, 3]
+      )
+    );
+  }
+);
 
-assert(testCount, 'should return an empty list from empty input', () => {
-  let example = unique([])
+assert(testCount, "should return an empty list from empty input", () => {
+  let example = unique([]);
   return example !== undefined && arraysEqual(example, []);
 });
 
-console.log('PASSED: ' + testCount[0] + ' / ' + testCount[1], '\n\n');
+console.log("PASSED: " + testCount[0] + " / " + testCount[1], "\n\n");
 
-
-console.log('Word Count');
+console.log("Word Count");
 testCount = [0, 0];
 
-assert(testCount, 'should return an object with each word and its frequency', () => {
-  let example = wordCount("The cat and the hat.")
-  return example !== undefined &&
-  example['the'] === 2 &&
-  example['cat'] === 1 &&
-  example['and'] === 1 &&
-  example['hat'] === 1;
-});
+assert(
+  testCount,
+  "should return an object with each word and its frequency",
+  () => {
+    let example = wordCount("The cat and the hat.");
+    return (
+      example !== undefined &&
+      example["the"] === 2 &&
+      example["cat"] === 1 &&
+      example["and"] === 1 &&
+      example["hat"] === 1
+    );
+  }
+);
 
-assert(testCount, 'should return object with each word excluding punctuations', () => {
-  let example = wordCount("It's a man, it's a plane, it's superman!")
-  return example !== undefined &&
-  example['its'] === 3 &&
-  example['a'] === 2 &&
-  example['man'] === 1 &&
-  example['plane'] === 1 &&
-  example['superman'] === 1;
-});
+assert(
+  testCount,
+  "should return object with each word excluding punctuations",
+  () => {
+    let example = wordCount("It's a man, it's a plane, it's superman!");
+    return (
+      example !== undefined &&
+      example["its"] === 3 &&
+      example["a"] === 2 &&
+      example["man"] === 1 &&
+      example["plane"] === 1 &&
+      example["superman"] === 1
+    );
+  }
+);
 
-assert(testCount, 'should return empty object for empty string input', () => {
-  let example = wordCount("")
+assert(testCount, "should return empty object for empty string input", () => {
+  let example = wordCount("");
   return example !== undefined && Object.keys(example).length === 0;
 });
 
-console.log('PASSED: ' + testCount[0] + ' / ' + testCount[1], '\n\n');
+console.log("PASSED: " + testCount[0] + " / " + testCount[1], "\n\n");
 
-
-console.log('rgb Count');
+console.log("rgb Count");
 testCount = [0, 0];
 
-assert(testCount, 'should return number correct number of rgb from input', () => {
-  let example = rgb('rgbrgb');
-  return example !== undefined && example === 2;
-});
+assert(
+  testCount,
+  "should return number correct number of rgb from input",
+  () => {
+    let example = rgb("rgbrgb");
+    return example !== undefined && example === 2;
+  }
+);
 
-assert(testCount, 'should return correct number of rgb from input despite characters out of sequence', () => {
-  let example = rgb('rbgrbrgrgbgrrggbbbbrgrgrgrg');
-  return example !== undefined && example === 7;
-});
+assert(
+  testCount,
+  "should return correct number of rgb from input despite characters out of sequence",
+  () => {
+    let example = rgb("rbgrbrgrgbgrrggbbbbrgrgrgrg");
+    return example !== undefined && example === 7;
+  }
+);
 
-assert(testCount, 'should return 0 as output for no number of rgb', () => {
-  let example = rgb('bbrr');
+assert(testCount, "should return 0 as output for no number of rgb", () => {
+  let example = rgb("bbrr");
   return example !== undefined && example === 0;
 });
 
-assert(testCount, 'should return 0 for empty input', () => {
-  let example = rgb('');
+assert(testCount, "should return 0 for empty input", () => {
+  let example = rgb("");
   return example !== undefined && example === 0;
 });
 
-console.log('PASSED: ' + testCount[0] + ' / ' + testCount[1], '\n\n');
+console.log("PASSED: " + testCount[0] + " / " + testCount[1], "\n\n");
 
-
-console.log('Missing Number Tests');
+console.log("Missing Number Tests");
 testCount = [0, 0];
 
-assert(testCount, 'should return [3] for input of [1, 4, 2]', () => {
+assert(testCount, "should return [3] for input of [1, 4, 2]", () => {
   let example = missingNumber(4, [1, 4, 2]);
   return example !== undefined && arraysEqual(example, [3]);
 });
 
-assert(testCount, 'should return [2, 3, 5, 8] for input of [4, 7, 1, 6]', () => {
-  let example = missingNumber(8, [4, 7, 1, 6]);
-  return example !== undefined && arraysEqual(example, [2, 3, 5, 8]);
-});
+assert(
+  testCount,
+  "should return [2, 3, 5, 8] for input of [4, 7, 1, 6]",
+  () => {
+    let example = missingNumber(8, [4, 7, 1, 6]);
+    return example !== undefined && arraysEqual(example, [2, 3, 5, 8]);
+  }
+);
 
-assert(testCount, 'should return [3, 5] for input of [6, 4, 2, 1]', () => {
+assert(testCount, "should return [3, 5] for input of [6, 4, 2, 1]", () => {
   let example = missingNumber(6, [6, 4, 2, 1]);
   return example !== undefined && arraysEqual(example, [3, 5]);
 });
 
-console.log('PASSED: ' + testCount[0] + ' / ' + testCount[1], '\n\n');
+console.log("PASSED: " + testCount[0] + " / " + testCount[1], "\n\n");
 
-
-console.log('Letter Sort Tests');
+console.log("Letter Sort Tests");
 testCount = [0, 0];
 
 assert(testCount, "should return 'ehllo' for input 'hello'", () => {
-  let example = letterSort("hello")
+  let example = letterSort("hello");
   return example !== undefined && example === "ehllo";
 });
 
-assert(testCount, "should return 'abdehiortw' for input of 'whiteboard'", () => {
-  let example = letterSort("whiteboard")
-  return example !== undefined && example === "abdehiortw";
-});
+assert(
+  testCount,
+  "should return 'abdehiortw' for input of 'whiteboard'",
+  () => {
+    let example = letterSort("whiteboard");
+    return example !== undefined && example === "abdehiortw";
+  }
+);
 
 assert(testCount, "should return 'eno' for input 'one'", () => {
-  let example = letterSort("one")
+  let example = letterSort("one");
   return example !== undefined && example === "eno";
 });
 
-console.log('PASSED: ' + testCount[0] + ' / ' + testCount[1], '\n\n');
+console.log("PASSED: " + testCount[0] + " / " + testCount[1], "\n\n");
 
-
-console.log('Character Mode Tests');
+console.log("Character Mode Tests");
 testCount = [0, 0];
 
 assert(testCount, "should return 'l' for input 'hello'", () => {
@@ -427,20 +518,23 @@ assert(testCount, "should return 'l' for input 'hello'", () => {
   return example !== undefined && example === "l";
 });
 
-assert(testCount, "should return 'a' when input is 'A walk in the park'", () => {
-  let example = characterMode("A walk in the park");
-  return example !== undefined && example === "a";
-});
+assert(
+  testCount,
+  "should return 'a' when input is 'A walk in the park'",
+  () => {
+    let example = characterMode("A walk in the park");
+    return example !== undefined && example === "a";
+  }
+);
 
 assert(testCount, "should return 'no' when input is 'noon'", () => {
   let example = characterMode("noon");
   return example !== undefined && example === "no";
 });
 
-console.log('PASSED: ' + testCount[0] + ' / ' + testCount[1], '\n\n');
+console.log("PASSED: " + testCount[0] + " / " + testCount[1], "\n\n");
 
-
-console.log('Sort Digits Tests');
+console.log("Sort Digits Tests");
 testCount = [0, 0];
 
 assert(testCount, "should return '789' when input is '8970'", () => {
@@ -458,10 +552,9 @@ assert(testCount, "should return '111' when input is '10101'", () => {
   return example !== undefined && example === 111;
 });
 
-console.log('PASSED: ' + testCount[0] + ' / ' + testCount[1], '\n\n');
+console.log("PASSED: " + testCount[0] + " / " + testCount[1], "\n\n");
 
-
-console.log('Get Duplicates Tests');
+console.log("Get Duplicates Tests");
 testCount = [0, 0];
 
 assert(testCount, "should return '[2]' when input is '[1, 2, 4, 2]'", () => {
@@ -469,20 +562,26 @@ assert(testCount, "should return '[2]' when input is '[1, 2, 4, 2]'", () => {
   return example !== undefined && arraysEqual(example, [2]);
 });
 
-assert(testCount, "should return '[3, 2]' or '[2, 3]' when input is '[3, 2, 3, 2, 3, 3, 4]'", () => {
-  let example = getDuplicates([3, 2, 3, 2, 3, 3, 4]);
-  return example !== undefined && arraysEqual(example, [2,3]) || arraysEqual(example, [3,2]);
-});
+assert(
+  testCount,
+  "should return '[3, 2]' or '[2, 3]' when input is '[3, 2, 3, 2, 3, 3, 4]'",
+  () => {
+    let example = getDuplicates([3, 2, 3, 2, 3, 3, 4]);
+    return (
+      (example !== undefined && arraysEqual(example, [2, 3])) ||
+      arraysEqual(example, [3, 2])
+    );
+  }
+);
 
 assert(testCount, "should return '[]' when input is '[1, 2, 3, 4]'", () => {
   let example = getDuplicates([1, 2, 3, 4]);
   return example !== undefined && arraysEqual(example, []);
 });
 
-console.log('PASSED: ' + testCount[0] + ' / ' + testCount[1], '\n\n');
+console.log("PASSED: " + testCount[0] + " / " + testCount[1], "\n\n");
 
-
-console.log('Anagram Pair Tests');
+console.log("Anagram Pair Tests");
 testCount = [0, 0];
 
 assert(testCount, "should return true when input is 'cat, act'", () => {
@@ -495,15 +594,18 @@ assert(testCount, "should return false when input is 'cat, dog'", () => {
   return example !== undefined && example === false;
 });
 
-assert(testCount, "should return false when input is 'racecar, aaccrres'", () => {
-  let example = anagramPair("racecar", "aaccrres");
-  return example !== undefined && example === false;
-});
+assert(
+  testCount,
+  "should return false when input is 'racecar, aaccrres'",
+  () => {
+    let example = anagramPair("racecar", "aaccrres");
+    return example !== undefined && example === false;
+  }
+);
 
-console.log('PASSED: ' + testCount[0] + ' / ' + testCount[1], '\n\n');
+console.log("PASSED: " + testCount[0] + " / " + testCount[1], "\n\n");
 
-
-console.log('Anagram Palindrome Tests');
+console.log("Anagram Palindrome Tests");
 testCount = [0, 0];
 
 assert(testCount, "should return true when input is 'carrace'", () => {
@@ -516,9 +618,7 @@ assert(testCount, "should return false when input is 'cat'", () => {
   return example !== undefined && example === false;
 });
 
-console.log('PASSED: ' + testCount[0] + ' / ' + testCount[1], '\n\n');
-
-
+console.log("PASSED: " + testCount[0] + " / " + testCount[1], "\n\n");
 
 // captures all elements that were printed to the console
 //
@@ -538,14 +638,16 @@ function captureLog(method, ...params) {
 
 // compare if two flat arrays are equal
 function arraysEqual(arr1, arr2) {
-  if (arr1.length !== arr2.length) { return false; }
+  if (arr1.length !== arr2.length) {
+    return false;
+  }
   for (let i = 0; i < arr1.length; i++) {
-    if (arr1[i] !== arr2[i]) { return false; }
+    if (arr1[i] !== arr2[i]) {
+      return false;
+    }
   }
   return true;
 }
-
-
 
 // custom assert function to handle tests
 // input: count {Array} - keeps track out how many tests pass and how many total
@@ -555,24 +657,24 @@ function arraysEqual(arr1, arr2) {
 //        indicating if test passed
 // output: {undefined}
 function assert(count, name, test) {
-  if(!count || !Array.isArray(count) || count.length !== 2) {
-    count = [0, '*'];
+  if (!count || !Array.isArray(count) || count.length !== 2) {
+    count = [0, "*"];
   } else {
     count[1]++;
   }
 
-  let pass = 'false';
+  let pass = "false";
   let errMsg = null;
   try {
     if (test()) {
-      pass = ' true';
+      pass = " true";
       count[0]++;
     }
-  } catch(e) {
+  } catch (e) {
     errMsg = e;
   }
-  console.log('  ' + (count[1] + ')   ').slice(0,5) + pass + ' : ' + name);
+  console.log("  " + (count[1] + ")   ").slice(0, 5) + pass + " : " + name);
   if (errMsg !== null) {
-    console.log('       ' + errMsg + '\n');
+    console.log("       " + errMsg + "\n");
   }
 }
