@@ -79,4 +79,4 @@ Here is a list of Hackerrank challenges that are meant to be taken after each we
 [Week 5](http://hr.gs/outco_week5)
 
 ## Questions or Comments?
-If there are issues, bug, comment, question, you can reach us at [this form](https://outco.io/outcodersupport)
+If there are issues, bug, comment, question, you can reach us at [this form](https://outco.io/outcodersupport).
