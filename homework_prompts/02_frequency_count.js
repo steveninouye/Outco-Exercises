@@ -244,7 +244,18 @@ function characterMode(string) {
  */
 
 function sortDigits(n) {
-  // YOUR WORK HERE
+  let result = 0;
+  for (var i = 1; i <= 9; i++) {
+    let num = n;
+    while (num > 0) {
+      let digit = num % 10;
+      num = Math.floor(num / 10);
+      if (digit === i) {
+        result = result * 10 + i;
+      }
+    }
+  }
+  return result;
 }
 
 /**
@@ -268,7 +279,17 @@ function sortDigits(n) {
  */
 
 function getDuplicates(arr) {
-  // YOUR WORK HERE
+  const elements = new Set();
+  const result = [];
+  for (var i = 0; i < arr.length; i++) {
+    const el = arr[i];
+    if (elements.has(el)) {
+      result.push(el);
+    } else {
+      elements.add(el);
+    }
+  }
+  return result;
 }
 
 /**
