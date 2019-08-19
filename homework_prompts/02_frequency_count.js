@@ -75,11 +75,17 @@ function wordCount(sentence) {
     const ltr = sentence[i].toLowerCase();
     if (ltr !== " " && "abcdefghijklmnopqrstuvwxyz".includes(ltr)) {
       str += ltr;
-    } else if (ltr === " " && str.length > 0) {
-      if (result[str] === undefined) result[str] = 0;
-      result[str]++;
+    } else if (ltr === " ") {
+      if (str.length > 0) {
+        if (result[str] === undefined) result[str] = 0;
+        result[str]++;
+      }
       str = "";
     }
+  }
+  if (str.length > 0) {
+    if (result[str] === undefined) result[str] = 0;
+    result[str]++;
   }
   return result;
 }
@@ -280,16 +286,16 @@ function sortDigits(n) {
 
 function getDuplicates(arr) {
   const elements = new Set();
-  const result = [];
+  const result = new Set();
   for (var i = 0; i < arr.length; i++) {
     const el = arr[i];
     if (elements.has(el)) {
-      result.push(el);
+      result.add(el);
     } else {
       elements.add(el);
     }
   }
-  return result;
+  return [...result];
 }
 
 /**
@@ -317,7 +323,19 @@ function getDuplicates(arr) {
  */
 
 function anagramPair(string1, string2) {
-  // YOUR WORK HERE
+  if (string1.length !== string2.length) return false;
+  const ltrCount = {};
+  for (let i = 0; i < string1.length; i++) {
+    const ltr = string1[i];
+    if (ltrCount[ltr] === undefined) ltrCount[ltr] = 0;
+    ltrCount[ltr]++;
+  }
+  for (let i = 0; i < string2.length; i++) {
+    const ltr = string2[i];
+    if (!ltrCount[ltr]) return false;
+    ltrCount[ltr]--;
+  }
+  return true;
 }
 
 /**
@@ -347,7 +365,16 @@ function anagramPair(string1, string2) {
  */
 
 function anagramPalindrome(string) {
-  // YOUR WORK HERE
+  const store = new Set();
+  for (let i = 0; i < string.length; i++) {
+    const ltr = string[i];
+    if (store.has(ltr)) {
+      store.delete(ltr);
+    } else {
+      store.add(ltr);
+    }
+  }
+  return store.size < 2;
 }
 
 ////////////////////////////////////////////////////////////
