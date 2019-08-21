@@ -2,7 +2,7 @@
  *  Target Practice 01 - Recursion
  */
 
- 'use strict';
+"use strict";
 
 /*
  *  Problem:  Powerset
@@ -19,12 +19,45 @@
  *            The letters in the subset string must be in the same order
  *            as the original input.
  */
-
-
-
 function powerset(str) {
-  // YOUR WORK HERE
+  let result = [];
+  function powerSet(str) {
+    if (str.length === 0) return [""];
+
+    let result = [];
+    for (let i = 0; i < str.length; i++) {
+      let ltr = str[i];
+      let stuff = powerSet(str.slice(i + 1)); // ['']
+      stuff.forEach(st => {
+        if (!result.includes(ltr + str)) {
+          result.push(ltr + st);
+        }
+      });
+      result = result.concat(stuff);
+    }
+    console.log(result);
+    return result;
+  }
+  powerSet(str);
+  return result;
 }
+// function powerset(str) {
+//   if (str.length === 0) return [""];
+
+//   let result = [];
+//   for (let i = 0; i < str.length; i++) {
+//     let ltr = str[i]
+//     let stuff = powerset(str.slice(i + 1)); // ['']
+//     stuff.forEach((st) => {
+//       if(!result.includes(ltr + str) && !stuff.includes(ltr + str)) {
+//         result.push(ltr + st)
+//       }
+//     })
+//     result = result.concat(stuff);
+//   }
+//   console.log(result);
+//   return result;
+// }
 
 /*
  *  Problem: Lattice Paths
@@ -52,80 +85,196 @@ function powerset(str) {
  *
  */
 
- // Time Complexity:
- // Auxiliary Space Complexity:
- function latticePaths(m, n) {
-   // YOUR WORK HERE
- }
-
-
+// Time Complexity:
+// Auxiliary Space Complexity:
+function latticePaths(m, n) {
+  // YOUR WORK HERE
+}
 
 ////////////////////////////////////////////////////////////
 ///////////////  DO NOT TOUCH TEST BELOW!!!  ///////////////
 ////////////////////////////////////////////////////////////
 
-console.log('Powerset Tests');
+console.log("Powerset Tests");
 var testCount = [0, 0];
 
-assert(testCount, 'should work on example input', function(){
-  var example = powerset('abc');
-  return arraysMatching(example, ['','a','b','c','ab','bc','ac','abc']);
+assert(testCount, "should work on example input", function() {
+  var example = powerset("abc");
+  return arraysMatching(example, ["", "a", "b", "c", "ab", "bc", "ac", "abc"]);
 });
 
-assert(testCount, 'should work on empty input', function(){
-  var example = powerset('');
-  return arraysMatching(example, ['']);
+assert(testCount, "should work on empty input", function() {
+  var example = powerset("");
+  return arraysMatching(example, [""]);
 });
 
-assert(testCount, 'should work on two-letter input', function(){
-  var example = powerset('ab');
-  return arraysMatching(example, ['','a','b','ab']);
+assert(testCount, "should work on two-letter input", function() {
+  var example = powerset("ab");
+  return arraysMatching(example, ["", "a", "b", "ab"]);
 });
 
-assert(testCount, 'should work on longer input', function(){
-  var example = powerset('abcdefg');
-  return arraysMatching(example, [ '','g','f','fg','e','eg','ef','efg','d',
-    'dg','df','dfg','de','deg','def','defg','c','cg','cf','cfg','ce','ceg',
-    'cef','cefg','cd','cdg','cdf','cdfg','cde','cdeg','cdef','cdefg','b','bg',
-    'bf','bfg','be','beg','bef','befg','bd','bdg','bdf','bdfg','bde','bdeg',
-    'bdef','bdefg','bc','bcg','bcf','bcfg','bce','bceg','bcef','bcefg','bcd',
-    'bcdg','bcdf','bcdfg','bcde','bcdeg','bcdef','bcdefg','a','ag','af','afg',
-    'ae','aeg','aef','aefg','ad','adg','adf','adfg','ade','adeg','adef',
-    'adefg','ac','acg','acf','acfg','ace','aceg','acef','acefg','acd','acdg',
-    'acdf','acdfg','acde','acdeg','acdef','acdefg','ab','abg','abf','abfg',
-    'abe','abeg','abef','abefg','abd','abdg','abdf','abdfg','abde','abdeg',
-    'abdef','abdefg','abc','abcg','abcf','abcfg','abce','abceg','abcef',
-    'abcefg','abcd','abcdg','abcdf','abcdfg','abcde','abcdeg','abcdef','abcdefg'
+assert(testCount, "should work on longer input", function() {
+  var example = powerset("abcdefg");
+  return arraysMatching(example, [
+    "",
+    "g",
+    "f",
+    "fg",
+    "e",
+    "eg",
+    "ef",
+    "efg",
+    "d",
+    "dg",
+    "df",
+    "dfg",
+    "de",
+    "deg",
+    "def",
+    "defg",
+    "c",
+    "cg",
+    "cf",
+    "cfg",
+    "ce",
+    "ceg",
+    "cef",
+    "cefg",
+    "cd",
+    "cdg",
+    "cdf",
+    "cdfg",
+    "cde",
+    "cdeg",
+    "cdef",
+    "cdefg",
+    "b",
+    "bg",
+    "bf",
+    "bfg",
+    "be",
+    "beg",
+    "bef",
+    "befg",
+    "bd",
+    "bdg",
+    "bdf",
+    "bdfg",
+    "bde",
+    "bdeg",
+    "bdef",
+    "bdefg",
+    "bc",
+    "bcg",
+    "bcf",
+    "bcfg",
+    "bce",
+    "bceg",
+    "bcef",
+    "bcefg",
+    "bcd",
+    "bcdg",
+    "bcdf",
+    "bcdfg",
+    "bcde",
+    "bcdeg",
+    "bcdef",
+    "bcdefg",
+    "a",
+    "ag",
+    "af",
+    "afg",
+    "ae",
+    "aeg",
+    "aef",
+    "aefg",
+    "ad",
+    "adg",
+    "adf",
+    "adfg",
+    "ade",
+    "adeg",
+    "adef",
+    "adefg",
+    "ac",
+    "acg",
+    "acf",
+    "acfg",
+    "ace",
+    "aceg",
+    "acef",
+    "acefg",
+    "acd",
+    "acdg",
+    "acdf",
+    "acdfg",
+    "acde",
+    "acdeg",
+    "acdef",
+    "acdefg",
+    "ab",
+    "abg",
+    "abf",
+    "abfg",
+    "abe",
+    "abeg",
+    "abef",
+    "abefg",
+    "abd",
+    "abdg",
+    "abdf",
+    "abdfg",
+    "abde",
+    "abdeg",
+    "abdef",
+    "abdefg",
+    "abc",
+    "abcg",
+    "abcf",
+    "abcfg",
+    "abce",
+    "abceg",
+    "abcef",
+    "abcefg",
+    "abcd",
+    "abcdg",
+    "abcdf",
+    "abcdfg",
+    "abcde",
+    "abcdeg",
+    "abcdef",
+    "abcdefg"
   ]);
 });
 
-console.log('PASSED: ' + testCount[0] + ' / ' + testCount[1], '\n\n');
+console.log("PASSED: " + testCount[0] + " / " + testCount[1], "\n\n");
 
-
-console.log('Lattice Paths Tests');
+console.log("Lattice Paths Tests");
 testCount = [0, 0];
 
-assert(testCount, 'should work on example case', function(){
+assert(testCount, "should work on example case", function() {
   let example = latticePaths(2, 3);
   return example === 10;
 });
 
-assert(testCount, 'should return 1 for 0 x 0 lattice', function(){
+assert(testCount, "should return 1 for 0 x 0 lattice", function() {
   let example = latticePaths(0, 0);
   return example === 1;
 });
 
-assert(testCount, 'should return 2496144 for 13 x 11 lattice', function(){
+assert(testCount, "should return 2496144 for 13 x 11 lattice", function() {
   let example = latticePaths(11, 13);
   return example === 2496144;
 });
 
-console.log('PASSED: ' + testCount[0] + ' / ' + testCount[1], '\n\n');
+console.log("PASSED: " + testCount[0] + " / " + testCount[1], "\n\n");
 
 // function for checking if arrays contain same elements
 // (do not need to be in the same order)
 function arraysMatching(arr1, arr2) {
-  if (arr1.length !== arr2.length) { return false; }
+  if (arr1.length !== arr2.length) {
+    return false;
+  }
 
   let cache = {};
   for (let i = 0; i < arr1.length; i++) {
@@ -137,12 +286,13 @@ function arraysMatching(arr1, arr2) {
   }
 
   for (let j = 0; j < arr2.length; j++) {
-    if (cache[arr2[j]] === undefined || cache[arr2[j]] === 0) { return false; }
+    if (cache[arr2[j]] === undefined || cache[arr2[j]] === 0) {
+      return false;
+    }
     cache[arr2[j]]--;
   }
   return true;
 }
-
 
 // custom assert function to handle tests
 // input: count {Array} - keeps track out how many tests pass and how many total
@@ -153,23 +303,23 @@ function arraysMatching(arr1, arr2) {
 // output: {undefined}
 function assert(count, name, test) {
   if (!count || !Array.isArray(count) || count.length !== 2) {
-    count = [0, '*'];
+    count = [0, "*"];
   } else {
     count[1]++;
   }
 
-  let pass = 'false';
+  let pass = "false";
   let errMsg = null;
   try {
     if (test()) {
-      pass = ' true';
+      pass = " true";
       count[0]++;
     }
-  } catch(e) {
+  } catch (e) {
     errMsg = e;
   }
-  console.log('  ' + (count[1] + ')   ').slice(0,5) + pass + ' : ' + name);
+  console.log("  " + (count[1] + ")   ").slice(0, 5) + pass + " : " + name);
   if (errMsg !== null) {
-    console.log('       ' + errMsg + '\n');
+    console.log("       " + errMsg + "\n");
   }
 }

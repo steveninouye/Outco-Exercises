@@ -60,116 +60,111 @@
  *
  */
 
- // Time Complexity:
- // Auxiliary Space Complexity:
- function latticePaths(m, n) {
-   //YOUR WORK HERE
- }
+// Time Complexity:
+// Auxiliary Space Complexity:
+function latticePaths(m, n) {
+  if (m === 0 || n === 0) return 1;
+  if (m === n) return latticePaths(m - 1, n) * 2;
+  return latticePaths(m - 1, n) + latticePaths(m, n - 1);
+}
 
+////////////////////////////////////////////////////////////
+///////////////  DO NOT TOUCH TEST BELOW!!!  ///////////////
+////////////////////////////////////////////////////////////
 
+// code for capturing console.log output
+let record = [];
+(function() {
+  let log = console.log;
+  console.log = function() {
+    record = record.concat(Array.prototype.slice.call(arguments));
+    log.apply(this, Array.prototype.slice.call(arguments));
+  };
+})();
 
+console.log("Lattice Paths Tests");
+let testCount = [0, 0];
 
+assert(testCount, "should work for a 2 x 3 lattice", () => {
+  let example = latticePaths(2, 3);
+  return example === 10;
+});
 
+assert(testCount, "should return the same for a 3 x 2 lattice", () => {
+  let example = latticePaths(3, 2);
+  return example === 10;
+});
 
- ////////////////////////////////////////////////////////////
- ///////////////  DO NOT TOUCH TEST BELOW!!!  ///////////////
- ////////////////////////////////////////////////////////////
+assert(testCount, "should work for a 0 x 0 lattice", () => {
+  let example = latticePaths(0, 0);
+  return example === 1;
+});
 
- // code for capturing console.log output
- let record = [];
- (function () {
-   let log = console.log;
-   console.log = function () {
-     record = record.concat(Array.prototype.slice.call(arguments));
-     log.apply(this, Array.prototype.slice.call(arguments));
-   };
- }());
+assert(testCount, "should work for a 10 x 10 lattice (square input)", () => {
+  let example = latticePaths(10, 10);
+  return example === 184756;
+});
 
- console.log('Lattice Paths Tests');
- let testCount = [0, 0];
+assert(testCount, "should work for a 20 x 15 lattice (large input)", () => {
+  let example = latticePaths(20, 15);
+  return example === 3247943160;
+});
 
- assert(testCount, 'should work for a 2 x 3 lattice', () => {
-   let example = latticePaths(2, 3);
-   return example === 10;
- });
+console.log("PASSED: " + testCount[0] + " / " + testCount[1], "\n\n");
 
- assert(testCount, 'should return the same for a 3 x 2 lattice', () => {
-   let example = latticePaths(3, 2);
-   return example === 10;
- });
+// function for checking if arrays are equal
+function arraysEqual(arr1, arr2) {
+  if (arr1.length !== arr2.length) return false;
+  for (let i = arr1.length; i--; ) {
+    if (arr1[i] !== arr2[i]) return false;
+  }
+  return true;
+}
 
- assert(testCount, 'should work for a 0 x 0 lattice', () => {
-   let example = latticePaths(0, 0);
-   return example === 1;
- });
+// function for checking if arrays contain same elements
+// (do not need to be in the same order)
+function arraysMatching(arr1, arr2) {
+  if (arr1.length !== arr2.length) {
+    return false;
+  } else {
+    let lib = {};
+    for (let i = 0; i < arr1.length; i++) {
+      lib[arr1[i]] = true;
+    }
+    for (let j = 0; j < arr2.length; j++) {
+      if (lib[arr2[j]] === undefined) {
+        return false;
+      }
+    }
+    return true;
+  }
+}
 
- assert(testCount, 'should work for a 10 x 10 lattice (square input)', () => {
-   let example = latticePaths(10, 10);
-   return example === 184756;
- });
+// custom assert function to handle tests
+// Array count : keeps track out how many tests pass and how many total
+//   in the form of a two item array i.e., [0, 0]
+// String name : describes the test
+// Function test : performs a set of operations and returns a boolean
+//   indicating if test passed
+function assert(count, name, test) {
+  if (!count || !Array.isArray(count) || count.length !== 2) {
+    count = [0, "*"];
+  } else {
+    count[1]++;
+  }
 
- assert(testCount, 'should work for a 20 x 15 lattice (large input)', () => {
-   let example = latticePaths(20, 15);
-   return example === 3247943160;
- });
-
- console.log('PASSED: ' + testCount[0] + ' / ' + testCount[1], '\n\n');
-
- // function for checking if arrays are equal
- function arraysEqual(arr1, arr2) {
-   if(arr1.length !== arr2.length)
-     return false;
-   for(let i = arr1.length; i--;) {
-     if(arr1[i] !== arr2[i])
-       return false;
-   }
-   return true;
- }
-
- // function for checking if arrays contain same elements
- // (do not need to be in the same order)
- function arraysMatching(arr1, arr2){
-   if (arr1.length !== arr2.length){
-     return false;
-   } else {
-     let lib = {};
-     for (let i = 0; i < arr1.length; i++){
-       lib[arr1[i]] = true;
-     }
-     for (let j = 0; j < arr2.length; j++){
-       if (lib[arr2[j]] === undefined){
-         return false;
-       }
-     }
-     return true;
-   }
- }
-
- // custom assert function to handle tests
- // Array count : keeps track out how many tests pass and how many total
- //   in the form of a two item array i.e., [0, 0]
- // String name : describes the test
- // Function test : performs a set of operations and returns a boolean
- //   indicating if test passed
- function assert(count, name, test){
-   if(!count || !Array.isArray(count) || count.length !== 2) {
-     count = [0, '*'];
-   } else {
-     count[1]++;
-   }
-
-   let pass = 'false';
-   let errMsg = null;
-   try {
-     if (test()) {
-       pass = ' true';
-       count[0]++;
-     }
-   } catch(e) {
-     errMsg = e;
-   }
-   console.log('  ' + (count[1] + ')   ').slice(0,5) + pass + ' : ' + name);
-   if (errMsg !== null) {
-     console.log('       ' + errMsg + '\n');
-   }
- }
+  let pass = "false";
+  let errMsg = null;
+  try {
+    if (test()) {
+      pass = " true";
+      count[0]++;
+    }
+  } catch (e) {
+    errMsg = e;
+  }
+  console.log("  " + (count[1] + ")   ").slice(0, 5) + pass + " : " + name);
+  if (errMsg !== null) {
+    console.log("       " + errMsg + "\n");
+  }
+}
