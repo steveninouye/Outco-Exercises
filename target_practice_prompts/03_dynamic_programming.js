@@ -44,14 +44,44 @@
  *
  */
 
+// Time Complexity:
+// Auxiliary Space Complexity:
 
- // Time Complexity:
- // Auxiliary Space Complexity:
-
- function minimumWindowSubstring(S, T) {
-   // YOUR WORK HERE
-   return "";
- }
+function minimumWindowSubstring(S, T) {
+  let missingChars = T.length;
+  const charCount = {};
+  for (let i = 0; i < T.length; i++) {
+    const char = T[i];
+    if (charCount[char] === undefined) charCount[char] = 0;
+    charCount[char]++;
+  }
+  let result = null;
+  let left = 0;
+  for (let i = 0; i < S.length; i++) {
+    const char = S[i];
+    if (charCount[char] !== undefined) {
+      charCount[char]--;
+      if (charCount[char] >= 0) {
+        missingChars--;
+      }
+    }
+    while (missingChars <= 0) {
+      if (result === null || result.length > i - left + 1) {
+        result = S.slice(left, i + 1);
+      }
+      const leftChar = S[left];
+      if (charCount[leftChar] !== undefined) {
+        charCount[leftChar]++;
+        if (charCount[leftChar] > 0) {
+          missingChars++;
+        }
+      }
+      left++;
+    }
+  }
+  if (result === null) return "";
+  return result;
+}
 
 /*
  *  Dungeon Escape (Tabulation)
@@ -95,128 +125,144 @@
  *
  */
 
-
 // Time Complexity:
 // Auxiliary Space Complexity:
 
 function escape(dungeon) {
-  //YOUR WORK HERE
-};
-
+  const store = new Array(dungeon[0].length + 1).fill(Infinity);
+  store[store.length - 1] = 0;
+  for (let row = dungeon.length - 1; row >= 0; row--) {
+    for (let col = dungeon[0].length - 1; col >= 0; col--) {
+      let right = store[col + 1];
+      let down = store[col];
+      let smaller = right > down ? down : right;
+      let current = smaller - dungeon[row][col];
+      current = current > 0 ? current : 0;
+      store[col] = current;
+    }
+    store[store.length - 1] = Infinity;
+  }
+  return store[0] + 1;
+}
 
 ////////////////////////////////////////////////////////////
 ///////////////  DO NOT TOUCH TEST BELOW!!!  ///////////////
 ////////////////////////////////////////////////////////////
 
-
-console.log('Minimum Window Substring Tests');
+console.log("Minimum Window Substring Tests");
 let testCount = [0, 0];
 
-
-assert(testCount, 'should work on the example case', () => {
+assert(testCount, "should work on the example case", () => {
   return minimumWindowSubstring("ADOBECODEBANC", "ABC") === "BANC";
 });
 
-
-assert(testCount, 'should return the first occurrence of a match', () => {
+assert(testCount, "should return the first occurrence of a match", () => {
   return minimumWindowSubstring("ADOBECODEBANC", "DB") === "DOB";
 });
 
-assert(testCount, 'should work when the characters are not present', () => {
+assert(testCount, "should work when the characters are not present", () => {
   return minimumWindowSubstring("HELLO WORLD", "FOO") === "";
 });
 
+console.log("PASSED: " + testCount[0] + " / " + testCount[1], "\n\n");
 
-console.log('PASSED: ' + testCount[0] + ' / ' + testCount[1], '\n\n');
-
-
-console.log('Escape Dungeon Tests');
+console.log("Escape Dungeon Tests");
 testCount = [0, 0];
 
-
-assert(testCount, 'should work for first example case', () => {
-  let example = [[ -2, -5, 10],
-                 [ -3,-10, 30],
-                 [  3,  1, -5]];
+assert(testCount, "should work for first example case", () => {
+  let example = [[-2, -5, 10], [-3, -10, 30], [3, 1, -5]];
   let test = escape(example);
   return test === 7;
 });
 
-assert(testCount, 'should work for dungeon filled solely with health potions', () => {
-  let example = [[  5,  1, 10],
-                 [ 10,312, 30],
-                 [  3,  1,  7]];
+assert(
+  testCount,
+  "should work for dungeon filled solely with health potions",
+  () => {
+    let example = [[5, 1, 10], [10, 312, 30], [3, 1, 7]];
+    let test = escape(example);
+    return test === 1;
+  }
+);
+
+assert(testCount, "should work for an empty dungeon", () => {
+  let example = [[0, 0, 0], [0, 0, 0], [0, 0, 0]];
   let test = escape(example);
   return test === 1;
 });
 
-assert(testCount, 'should work for an empty dungeon', () => {
-  let example = [[  0,  0,  0],
-                 [  0,  0,  0],
-                 [  0,  0,  0]];
-  let test = escape(example);
-  return test === 1;
-});
-
-assert(testCount, 'should work for a dungeon filled only with monsters', () => {
-  let example = [[ -3, -6,-13],
-                 [-12, -1, -7],
-                 [ -5,-11, -2]];
+assert(testCount, "should work for a dungeon filled only with monsters", () => {
+  let example = [[-3, -6, -13], [-12, -1, -7], [-5, -11, -2]];
   let test = escape(example);
   return test === 20;
 });
 
-assert(testCount, 'should work for a two-room dungeon starting with a monster', () => {
-  let example = [[-2, 5]];
-  let test = escape(example);
-  return test === 3;
-});
+assert(
+  testCount,
+  "should work for a two-room dungeon starting with a monster",
+  () => {
+    let example = [[-2, 5]];
+    let test = escape(example);
+    return test === 3;
+  }
+);
 
-assert(testCount, 'should work for a two-room dungeon starting with a strong monster', () => {
-  let example = [[-13, 5]];
-  let test = escape(example);
-  return test === 14;
-});
+assert(
+  testCount,
+  "should work for a two-room dungeon starting with a strong monster",
+  () => {
+    let example = [[-13, 5]];
+    let test = escape(example);
+    return test === 14;
+  }
+);
 
-assert(testCount, 'should work for a two-room dungeon starting with a health pot', () => {
-  let example = [[5, -2]];
-  let test = escape(example);
-  return test === 1;
-});
+assert(
+  testCount,
+  "should work for a two-room dungeon starting with a health pot",
+  () => {
+    let example = [[5, -2]];
+    let test = escape(example);
+    return test === 1;
+  }
+);
 
-assert(testCount, 'should work for a two-room dungeon ending in a strong monster', () => {
-  let example = [[5, -8]];
-  let test = escape(example);
-  return test === 4;
-});
+assert(
+  testCount,
+  "should work for a two-room dungeon ending in a strong monster",
+  () => {
+    let example = [[5, -8]];
+    let test = escape(example);
+    return test === 4;
+  }
+);
 
-assert(testCount, 'should work a dungeon with only a monster', () => {
+assert(testCount, "should work a dungeon with only a monster", () => {
   let example = [[-14]];
   let test = escape(example);
   return test === 15;
 });
 
-assert(testCount, 'should work a dungeon with only a health pot', () => {
+assert(testCount, "should work a dungeon with only a health pot", () => {
   let example = [[6]];
   let test = escape(example);
   return test === 1;
 });
 
-assert(testCount, 'should work a dungeon with a single empty room', () => {
+assert(testCount, "should work a dungeon with a single empty room", () => {
   let example = [[0]];
   let test = escape(example);
   return test === 1;
 });
 
-console.log('PASSED: ' + testCount[0] + ' / ' + testCount[1], '\n\n');
-
-
-
+console.log("PASSED: " + testCount[0] + " / " + testCount[1], "\n\n");
 
 // function for checking if arrays contain same elements
 // (do not need to be in the same order)
 function arraysMatching(arr1, arr2) {
-  if (arr1.length !== arr2.length) { return false; }
+  if (arr1.length !== arr2.length) {
+    return false;
+  }
 
   let cache = {};
   for (let i = 0; i < arr1.length; i++) {
@@ -228,7 +274,9 @@ function arraysMatching(arr1, arr2) {
   }
 
   for (let j = 0; j < arr2.length; j++) {
-    if (cache[arr2[j]] === undefined || cache[arr2[j]] === 0) { return false; }
+    if (cache[arr2[j]] === undefined || cache[arr2[j]] === 0) {
+      return false;
+    }
     cache[arr2[j]]--;
   }
   return true;
@@ -236,15 +284,12 @@ function arraysMatching(arr1, arr2) {
 
 // function for checking if arrays are equal
 function arraysEqual(arr1, arr2) {
-  if(arr1.length !== arr2.length)
-    return false;
-  for(let i = arr1.length; i--;) {
-    if(arr1[i] !== arr2[i])
-      return false;
+  if (arr1.length !== arr2.length) return false;
+  for (let i = arr1.length; i--; ) {
+    if (arr1[i] !== arr2[i]) return false;
   }
   return true;
 }
-
 
 // custom assert function to handle tests
 // input: count {Array} - keeps track out how many tests pass and how many total
@@ -255,23 +300,23 @@ function arraysEqual(arr1, arr2) {
 // output: {undefined}
 function assert(count, name, test) {
   if (!count || !Array.isArray(count) || count.length !== 2) {
-    count = [0, '*'];
+    count = [0, "*"];
   } else {
     count[1]++;
   }
 
-  let pass = 'false';
+  let pass = "false";
   let errMsg = null;
   try {
     if (test()) {
-      pass = ' true';
+      pass = " true";
       count[0]++;
     }
-  } catch(e) {
+  } catch (e) {
     errMsg = e;
   }
-  console.log('  ' + (count[1] + ')   ').slice(0,5) + pass + ' : ' + name);
+  console.log("  " + (count[1] + ")   ").slice(0, 5) + pass + " : " + name);
   if (errMsg !== null) {
-    console.log('       ' + errMsg + '\n');
+    console.log("       " + errMsg + "\n");
   }
 }

@@ -19,9 +19,15 @@
 // Time Complexity:
 // Auxiliary Space Complexity:
 function maxConsecutiveSum(arr) {
-  //YOUR WORK HERE
+  let [max, curr] = [0, 0];
+  for (let i = 0; i < arr.length; i++) {
+    const el = arr[i];
+    curr += el;
+    if (curr < 0) curr = 0;
+    if (curr > max) max = curr;
+  }
+  return max;
 }
-
 
 /*
  *  BitFlip
@@ -40,11 +46,26 @@ function maxConsecutiveSum(arr) {
 
 // Time Complexity:
 // Auxiliary Space Complexity:
-function bitFlip (arr, n) {
-  //YOUR WORK HERE
+function bitFlip(arr, n) {
+  let [left, right, zeroCount] = [0, 0, 0];
+  while (zeroCount < n) {
+    if (right === arr.length) return arr.length;
+    if (arr[right] === 0) zeroCount++;
+    right++;
+  }
+  let result = right - left;
+  for (let r = right; r < arr.length; r++) {
+    if (arr[r] === 0) {
+      while (arr[left] !== 0) {
+        left++;
+      }
+      left++;
+    } else {
+      result = Math.max(result, r - left + 1);
+    }
+  }
+  return Math.max(result, arr.length - left);
 }
-
-
 
 ////////////////////////////////////////////////////////////
 ///////////////  DO NOT TOUCH TEST BELOW!!!  ///////////////
@@ -52,84 +73,88 @@ function bitFlip (arr, n) {
 
 // code for capturing console.log output
 let record = [];
-(function () {
+(function() {
   let log = console.log;
-  console.log = function () {
+  console.log = function() {
     record = record.concat(Array.prototype.slice.call(arguments));
     log.apply(this, Array.prototype.slice.call(arguments));
   };
-}());
+})();
 
-console.log('maxConsecutiveSum Tests');
+console.log("maxConsecutiveSum Tests");
 let testCount = [0, 0];
 
-assert(testCount, 'should work on example input', () => {
-  let example = maxConsecutiveSum([6,-1,3,5,-10]);
+assert(testCount, "should work on example input", () => {
+  let example = maxConsecutiveSum([6, -1, 3, 5, -10]);
   return example === 13;
 });
 
-assert(testCount, 'should work on single-element input', () => {
+assert(testCount, "should work on single-element input", () => {
   let example = maxConsecutiveSum([5]);
   return example === 5;
 });
 
-assert(testCount, 'should return 0 for empty input', () => {
+assert(testCount, "should return 0 for empty input", () => {
   let example = maxConsecutiveSum([]);
   return example === 0;
 });
 
-assert(testCount, 'should work on longer input', () => {
+assert(testCount, "should work on longer input", () => {
   let example = maxConsecutiveSum([-2, 1, -3, 4, -1, 2, 1, -5, 4]);
   return example === 6;
 });
 
-console.log('PASSED: ' + testCount[0] + ' / ' + testCount[1], '\n\n');
+console.log("PASSED: " + testCount[0] + " / " + testCount[1], "\n\n");
 
-
-console.log('Bit Flip Tests');
+console.log("Bit Flip Tests");
 testCount = [0, 0];
 
-assert(testCount, 'should handle example case', () => {
-  let example = bitFlip([0,1,1,1,0,1,0,1,0,0], 2);
+assert(testCount, "should handle example case", () => {
+  let example = bitFlip([0, 1, 1, 1, 0, 1, 0, 1, 0, 0], 2);
   return example === 7;
 });
 
-assert(testCount, 'should handle smaller edge case where flip is allowed', () => {
-  let example = bitFlip([0], 1);
-  return example === 1;
-});
+assert(
+  testCount,
+  "should handle smaller edge case where flip is allowed",
+  () => {
+    let example = bitFlip([0], 1);
+    return example === 1;
+  }
+);
 
-assert(testCount, 'should handle smaller edge case where flip is not allowed', () => {
-  let example = bitFlip([0], 0);
-  return example === 0;
-});
+assert(
+  testCount,
+  "should handle smaller edge case where flip is not allowed",
+  () => {
+    let example = bitFlip([0], 0);
+    return example === 0;
+  }
+);
 
-console.log('PASSED: ' + testCount[0] + ' / ' + testCount[1], '\n\n');
-
+console.log("PASSED: " + testCount[0] + " / " + testCount[1], "\n\n");
 
 // function for checking if arrays are equal
 function arraysEqual(arr1, arr2) {
-  if(arr1.length !== arr2.length)
-    return false;
-  for(let i = arr1.length; i--;) {
-    if(arr1[i] !== arr2[i])
-      return false;
+  if (arr1.length !== arr2.length) return false;
+  for (let i = arr1.length; i--; ) {
+    if (arr1[i] !== arr2[i]) return false;
   }
   return true;
 }
 
 // function for checking if arrays contain same elements
 // (do not need to be in the same order)
-function arraysMatching(arr1, arr2){
-  if (arr1.length !== arr2.length){
+function arraysMatching(arr1, arr2) {
+  if (arr1.length !== arr2.length) {
     return false;
   } else {
     let lib = {};
-    for (let i = 0; i < arr1.length; i++){
+    for (let i = 0; i < arr1.length; i++) {
       lib[arr1[i]] = true;
     }
-    for (let j = 0; j < arr2.length; j++){
-      if (lib[arr2[j]] === undefined){
+    for (let j = 0; j < arr2.length; j++) {
+      if (lib[arr2[j]] === undefined) {
         return false;
       }
     }
@@ -143,25 +168,25 @@ function arraysMatching(arr1, arr2){
 // String name : describes the test
 // Function test : performs a set of operations and returns a boolean
 //   indicating if test passed
-function assert(count, name, test){
-  if(!count || !Array.isArray(count) || count.length !== 2) {
-    count = [0, '*'];
+function assert(count, name, test) {
+  if (!count || !Array.isArray(count) || count.length !== 2) {
+    count = [0, "*"];
   } else {
     count[1]++;
   }
 
-  let pass = 'false';
+  let pass = "false";
   let errMsg = null;
   try {
     if (test()) {
-      pass = ' true';
+      pass = " true";
       count[0]++;
     }
-  } catch(e) {
+  } catch (e) {
     errMsg = e;
   }
-  console.log('  ' + (count[1] + ')   ').slice(0,5) + pass + ' : ' + name);
+  console.log("  " + (count[1] + ")   ").slice(0, 5) + pass + " : " + name);
   if (errMsg !== null) {
-    console.log('       ' + errMsg + '\n');
+    console.log("       " + errMsg + "\n");
   }
 }
